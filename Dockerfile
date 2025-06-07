@@ -32,4 +32,4 @@ COPY --from=builder /app/frontend/dist ./frontend/dist
 EXPOSE 3333
 
 # Start the application
-CMD ["npm", "start"]
+CMD ["node", "build/bin/server.js"]
