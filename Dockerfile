@@ -1,17 +1,24 @@
-FROM node:18-alpine as base
+FROM node:18-alpine as build
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY frontend/package*.json ./frontend/
+WORKDIR /app/frontend
+RUN npm ci
+
+WORKDIR /app
+COPY . .
+RUN npm run build
+
+FROM node:18-alpine as runtime
 
 WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci --only=production
-
-FROM base as build
-
-RUN npm ci
-COPY . .
-RUN npm run build
-
-FROM base as runtime
 
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/frontend/dist ./frontend/dist
