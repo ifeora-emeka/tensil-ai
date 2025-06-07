@@ -1,6 +1,7 @@
 import { MongoClient } from 'mongodb'
+import { MONGO_URI } from './constant'
 
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/tensil-ai'
+const uri = MONGO_URI;
 const client = new MongoClient(uri)
 
 let db: any = null

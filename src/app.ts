@@ -1,7 +1,10 @@
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { connectDB, getDB } from './config/database.js'
+import { connectDB } from './config/database.js'
+import authRoutes from './modules/auth/auth.routes.js'
+import usersRoutes from './modules/users/users.routes.js'
+import { API_PREFIX } from './config/constant.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -12,21 +15,11 @@ app.use(express.json())
 
 await connectDB()
 
-app.get('/api/v1/', (req, res) => {
-  res.json({ message: 'Hello World!' })
-})
+app.use(`${API_PREFIX}/auth`, authRoutes)
+app.use(`${API_PREFIX}/users`, usersRoutes)
 
-app.get('/api/v1/test-db', async (req, res) => {
-  try {
-    const db = getDB()
-    const result = await db.collection('test').insertOne({
-      message: 'Database connection test',
-      timestamp: new Date()
-    })
-    res.json({ success: true, insertedId: result.insertedId })
-  } catch (error) {
-    res.status(500).json({ error: 'Database connection failed' })
-  }
+app.get(`${API_PREFIX}/`, (req, res) => {
+  res.json({ message: 'Hello World!' })
 })
 
 app.get('/health', (req, res) => {
