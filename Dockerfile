@@ -22,7 +22,12 @@ RUN npm run build:backend
 
 FROM node:18-alpine as runtime
 
-RUN apk add --no-cache mongodb netcat-openbsd
+RUN apk add --no-cache netcat-openbsd curl
+
+RUN curl -fsSLO https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-alpine-7.0.5.tgz && \
+    tar -xzf mongodb-linux-x86_64-alpine-7.0.5.tgz && \
+    mv mongodb-linux-x86_64-alpine-7.0.5/bin/* /usr/local/bin/ && \
+    rm -rf mongodb-linux-x86_64-alpine-7.0.5*
 
 WORKDIR /app
 
