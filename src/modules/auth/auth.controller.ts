@@ -4,7 +4,7 @@ import { AuthService } from './auth.services.js'
 export class AuthController {
   private authService = new AuthService()
 
-  async register(req: Request, res: Response) {
+  register = async (req: Request, res: Response) => {
     try {
       const { email, displayName, password } = req.body
       const result = await this.authService.register(email, displayName, password)

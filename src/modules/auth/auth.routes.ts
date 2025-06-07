@@ -8,5 +8,4 @@ const authController = new AuthController()
 
 router.post('/register', verifyRequestBody(registerSchema), authController.register)
 
-
 export default router
