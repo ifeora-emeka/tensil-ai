@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: 
+      context: .
+      target: production
+    ports:
+      - "${PORT}:3333"
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      NODE_ENV: production
+      APP_KEY: ${APP_KEY}
+      PORT: ${PORT}
+      HOST: ${HOST}
+
+volumes:
+  postgres_data:

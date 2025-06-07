@@ -13,7 +13,11 @@
     "test": "node ace test",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "docker:dev": "docker compose up",
+    "docker:build": "docker compose -f docker-compose.prod.yml build",
+    "docker:prod": "docker compose -f docker-compose.prod.yml up -d",
+    "deploy": "fly deploy"
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",
