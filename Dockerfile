@@ -7,7 +7,7 @@ RUN npm ci
 
 COPY frontend/package*.json ./frontend/
 WORKDIR /app/frontend
-RUN npm ci
+RUN npm install
 WORKDIR /app
 
 COPY tsconfig.json tsup.config.ts ./
