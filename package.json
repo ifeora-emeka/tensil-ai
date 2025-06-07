@@ -17,7 +17,7 @@
     "docker:dev": "docker compose up",
     "docker:build": "docker compose -f docker-compose.prod.yml build",
     "docker:prod": "docker compose -f docker-compose.prod.yml up -d",
-    "deploy": "fly deploy"
+    "deploy": "git push origin main"
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",
