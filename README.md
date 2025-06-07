@@ -1,3 +1,5 @@
+# Tensil AI
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
@@ -28,6 +30,75 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Fly.io
+
+This project is configured for deployment on [Fly.io](https://fly.io). Follow these steps to deploy:
+
+### Prerequisites
+
+1. Install the [Fly.io CLI](https://fly.io/docs/hands-on/install-flyctl/)
+2. Create a Fly.io account and log in:
+
+   ```bash
+   flyctl auth login
+   ```
+
+### Initial Deployment
+
+1. Launch your app on Fly.io (this will create the app if it doesn't exist):
+
+   ```bash
+   flyctl launch
+   ```
+
+2. Or deploy using the existing configuration:
+
+   ```bash
+   flyctl deploy
+   ```
+
+### Deployment Scripts
+
+For convenience, you can use the provided deployment scripts:
+
+**On Windows:**
+
+```cmd
+deploy.bat
+```
+
+**On Linux/macOS:**
+
+```bash
+chmod +x deploy.sh
+./deploy.sh
+```
+
+**Using npm:**
+
+```bash
+npm run deploy:fly
+```
+
+### Useful Fly.io Commands
+
+- View logs: `flyctl logs` or `npm run deploy:fly:logs`
+- SSH into your app: `flyctl ssh console` or `npm run deploy:fly:ssh`
+- Scale your app: `flyctl scale count 2`
+- Check app status: `flyctl status`
+- View app info: `flyctl info`
+
+### Configuration
+
+The deployment is configured through:
+
+- `fly.toml` - Main Fly.io configuration
+- `Dockerfile` - Container configuration
+- `.dockerignore` - Files to exclude from build
+- `next.config.ts` - Next.js standalone output configuration
+
+Your app will be available at: `https://tensil-ai.fly.dev`
 
 ## Deploy on Vercel
 
