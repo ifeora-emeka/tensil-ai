@@ -8,12 +8,21 @@ RUN npm ci
 COPY frontend/package*.json ./frontend/
 WORKDIR /app/frontend
 RUN npm ci
-
 WORKDIR /app
-COPY . .
+
+COPY tsconfig.json tsup.config.ts ./
+COPY src/ ./src/
+COPY frontend/ ./frontend/
+
+WORKDIR /app/frontend
 RUN npm run build
 
+WORKDIR /app
+RUN npm run build:backend
+
 FROM node:18-alpine as runtime
+
+RUN apk add --no-cache mongodb netcat-openbsd
 
 WORKDIR /app
 
@@ -23,6 +32,11 @@ RUN npm ci --only=production
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/frontend/dist ./frontend/dist
 
+RUN mkdir -p /data/db
+
 EXPOSE 3000
 
-CMD ["npm", "start"]
+COPY entrypoint.sh ./
+RUN chmod +x entrypoint.sh
+
+CMD ["./entrypoint.sh"]
