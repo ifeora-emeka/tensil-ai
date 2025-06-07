@@ -1,4 +1,4 @@
-FROM node:20-alpine AS base
+FROM node:20 AS base
 WORKDIR /app
 ENV NODE_ENV=production
 
@@ -20,7 +20,7 @@ COPY . .
 RUN npm run build
 
 FROM postgres:16-alpine AS production
-RUN apk add --no-cache nodejs npm supervisor
+RUN apt-get update && apt-get install -y nodejs npm supervisor && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY package*.json ./
