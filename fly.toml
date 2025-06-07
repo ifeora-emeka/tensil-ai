@@ -4,6 +4,9 @@ primary_region = "iad"
 [build]
   dockerfile = "Dockerfile"
 
+[processes]
+  app = "node bin/server.js"
+
 [env]
   PORT = "8080"
   HOST = "0.0.0.0"
