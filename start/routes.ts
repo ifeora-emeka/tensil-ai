@@ -8,12 +8,8 @@
 */
 
 import router from '@adonisjs/core/services/router'
-
-router.get('/', async () => {
-  return {
-    hello: 'world',
-  }
-})
+import app from '@adonisjs/core/services/app'
+import { readFile } from 'node:fs/promises'
 
 router
   .group(() => {
@@ -25,3 +21,20 @@ router
     })
   })
   .prefix('/api')
+
+router.get('/assets/*', async ({ request, response }) => {
+  const assetPath = request.param('*').join('/')
+  const filePath = app.makePath(`frontend/dist/assets/${assetPath}`)
+  return response.download(filePath)
+})
+
+router.get('*', async ({ response }) => {
+  const indexPath = app.makePath('frontend/dist/index.html')
+  try {
+    const html = await readFile(indexPath, 'utf-8')
+    response.type('text/html')
+    return html
+  } catch (error) {
+    return response.status(404).send('Frontend not built')
+  }
+})
