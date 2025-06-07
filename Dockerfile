@@ -20,14 +20,19 @@ RUN npm run build
 WORKDIR /app
 RUN npm run build:backend
 
-FROM node:18-alpine as runtime
+FROM node:18-slim as runtime
 
-RUN apk add --no-cache netcat-openbsd curl
+RUN apt-get update && apt-get install -y \
+    wget \
+    gnupg \
+    netcat-openbsd \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN curl -fsSLO https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-alpine-7.0.5.tgz && \
-    tar -xzf mongodb-linux-x86_64-alpine-7.0.5.tgz && \
-    mv mongodb-linux-x86_64-alpine-7.0.5/bin/* /usr/local/bin/ && \
-    rm -rf mongodb-linux-x86_64-alpine-7.0.5*
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-7.0.asc | apt-key add -
+RUN echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+
+RUN apt-get update && apt-get install -y mongodb-org && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
