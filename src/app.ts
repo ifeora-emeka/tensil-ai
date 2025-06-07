@@ -1,7 +1,7 @@
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { connectDB, getDB } from './db.js'
+import { connectDB, getDB } from './config/database.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -19,9 +19,9 @@ app.get('/api/v1/', (req, res) => {
 app.get('/api/v1/test-db', async (req, res) => {
   try {
     const db = getDB()
-    const result = await db.collection('test').insertOne({ 
-      message: 'Database connection test', 
-      timestamp: new Date() 
+    const result = await db.collection('test').insertOne({
+      message: 'Database connection test',
+      timestamp: new Date()
     })
     res.json({ success: true, insertedId: result.insertedId })
   } catch (error) {
