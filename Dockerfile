@@ -20,7 +20,7 @@ COPY . .
 RUN npm run build
 
 FROM postgres:16-alpine AS production
-RUN apt-get update && apt-get install -y nodejs npm supervisor && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache nodejs npm supervisor
 
 WORKDIR /app
 COPY package*.json ./
